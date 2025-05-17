@@ -16,24 +16,23 @@ Este repositorio está organizado como un proyecto **Fullstack**, dividido en do
 
 La estructura básica ya está creada y lista para trabajar:
 
-proyecto-cacc/
+```bash
+proyecto-cacc/              # Carpeta raíz del repositorio
 │
-├── frontend/
-│ ├── index.html
-│ ├── package.json
-│ └── ...otros archivos de React
+├── frontend/               # Proyecto del frontend con React + Vite + Tailwind
+│   ├── index.html
+│   ├── package.json        # Dependencias del frontend
+│   ├── tailwind.config.js  # Configuración de TailwindCSS
+│   ├── vite.config.js      # Configuración de Vite
+│   └── src/                # Código fuente del frontend (componentes, estilos, etc.)
 │
-├── backend/
-│ ├── src/
-│ │ └── index.js
-│ ├── package.json
-│ └── ...otros archivos de Node.js
+├── backend/                # Proyecto del backend con Node.js + Express
+│   ├── package.json        # Dependencias del backend
+│   └── src/
+│       └── index.js        # Servidor básico con Express
 │
-└── README.md
-
----
-
-
+└── README.md               # Este archivo con la documentación del proyecto
+```
 ---
 
 ## 🛠️ Cómo clonar y preparar el proyecto localmente
@@ -46,6 +45,7 @@ Cada integrante debe seguir estos pasos:
 Abrir la terminal (Git Bash) y clonar el repositorio ejecutando los siguientes comandos:
 
    `git clone https://github.com/juancruzvenier/proyecto-cacc.git`
+   y luego
    `cd proyecto-cacc`
 
 

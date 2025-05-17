@@ -101,7 +101,7 @@ Desde la raíz del proyecto (la carpeta `proyecto-cacc`, donde clonaste el repo)
 
 `npm install`  --> Esto instalará Express y cualquier dependencia que se agregue en el futuro.
 
-node src/index.js  --> Esto iniciará el servidor y deberías ver este mensaje en consola: Servidor escuchando en http://localhost:(puerto)
+`node src/index.js`  --> Esto iniciará el servidor y deberías ver este mensaje en consola: Servidor escuchando en http://localhost:(puerto)
 
 ## ¿Por qué usamos la rama desarrollo?
 

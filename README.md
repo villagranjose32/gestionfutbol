@@ -14,6 +14,8 @@ Este repositorio está organizado como un proyecto **Fullstack**, dividido en do
 - `frontend/`: contiene el cliente de la aplicación hecho con **React + Vite** y estilos con **TailwindCSS**.
 - `backend/`: contiene el servidor desarrollado con **Node.js + Express**.
 
+📅 17 de mayo de 2025
+
 La estructura básica ya está creada y lista para trabajar:
 
 ```bash

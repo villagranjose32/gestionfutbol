@@ -9,7 +9,7 @@ Es un sistema web desarrollado para que el club de fútbol Club Atlético Centra
 
 - [Descripción del repositorio](#-descripción-del-repositorio)
 - [Cómo clonar y preparar el proyecto localmente](#%EF%B8%8F-cómo-clonar-y-preparar-el-proyecto-localmente)
-- [¿Qué hacer todos los días ANTES de empezar a trabajar?](#¿-Qué-hacer-todos-los-días-antes-de-empezar-a-trabajar-?)
+- [¿Qué hacer todos los días ANTES de empezar a trabajar?](#-qué-hacer-todos-los-días-antes-de-empezar-a-trabajar)
 - [Para el FRONTEND](#para-el-frontend)
 - [Para el BACKEND](#para-el-backend)
 - [¿Por qué usamos la rama desarrollo?](#por-qué-usamos-la-rama-desarrollo)

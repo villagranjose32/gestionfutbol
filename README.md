@@ -1,5 +1,5 @@
 # ⚽ Proyecto CACC – Sistema de Gestión de Juveniles
-
+<img src="./frontend/public/logo-club.png" alt="Logo-CACC" width="50%" height="auto"/>
 ## 📌 Descripción del proyecto
 
 Este es un proyecto académico para la materia Practica Profesionalizante II de la Tecnicatura Superior en Desarrollo de Software.

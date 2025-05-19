@@ -1,5 +1,5 @@
 # ⚽ Proyecto CACC – Sistema de Gestión de Juveniles
-<img src="./frontend/public/logo-club.png" alt="Logo-CACC" width="200" height="auto"/>
+<img src="./frontend/public/logo-club.png" alt="Logo-CACC" width="100" height="auto"/>
 
 ## 📌 Descripción del proyecto
 

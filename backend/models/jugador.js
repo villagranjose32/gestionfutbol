@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../test-db'); // Ajusta la ruta si es necesario
+const sequelize = require('../db/test-db'); // Ajusta la ruta si es necesario
 
 const Jugador = sequelize.define('Jugador', {
   id_jugador: {

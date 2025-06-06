@@ -8,7 +8,7 @@ import CitaMedica from "./pages/CitaMedica.jsx";
 import RegistrarJugador from "./pages/RegistrarJugador.jsx";
 import Layout from "./components/Layout.jsx"; // Asegúrate de que la ruta sea correcta
 
-import React from "react";
+
 
 function App() {
   return (

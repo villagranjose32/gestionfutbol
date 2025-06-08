@@ -1,10 +1,11 @@
 // C:\Users\pc\proyecto-cacc\test-db.js
-
 const { Sequelize } = require('sequelize');
-const sequelize = new Sequelize('juvenilescentraldb', 'root', 'root', {
-  host: '127.0.0.1',
+
+const sequelize = new Sequelize('juvenilescentralcordobadb', 'root', 'root', {
+  host: 'localhost',  // Cambié '127.0.0.1' por 'localhost' según tu configuración de Workbench
+  port: 3306,  // Agregué explícitamente el puerto que vi en tu configuración
   dialect: 'mysql',
-  logging: false // Esto es opcional, silencia los logs de Sequelize si te molestan
+  logging: false  // Esto silencia los logs de Sequelize si no quieres verlos en la consola
 });
 
 async function testConnection() {
@@ -12,10 +13,10 @@ async function testConnection() {
     await sequelize.authenticate();
     console.log('✅ Conexión exitosa con la base de datos.');
   } catch (error) {
-    console.error('❌ Error al conectar con la base de datos:', error);
+    console.error('❌ Error al conectar con la base de datos:', error.message);
   }
 }
 
 testConnection();
 
-module.exports = sequelize; // Exporta la instancia de sequelize
+module.exports = sequelize;

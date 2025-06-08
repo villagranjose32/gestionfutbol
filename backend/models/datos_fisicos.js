@@ -1,17 +1,16 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../test-db'); 
+const sequelize = require('../db/test-db');
 
-const DatosFisicos = sequelize.define('DatosFisicos', { 
-  id_dato_fisico: {
+const DatosFisicos = sequelize.define('DatosFisicos', {
+  id_datos_fisico: { // ← nombre igual que en la tabla
     type: DataTypes.INTEGER,
-    primaryKey: true,       
+    primaryKey: true,
     autoIncrement: true,
-    allowNull: true,
+    allowNull: false,
   },
   id_jugador: {
     type: DataTypes.INTEGER,
     allowNull: true,
-   
   },
   fecha_registro: {
     type: DataTypes.DATE,
@@ -35,7 +34,11 @@ const DatosFisicos = sequelize.define('DatosFisicos', {
   },
 }, {
   tableName: 'datos_fisicos',
-  timestamps: true,
+  timestamps: false, // Si tu tabla no tiene createdAt/updatedAt
 });
 
-module.exports = DatosFisicos; 
+module.exports = DatosFisicos;
+
+// Relación después de exportar el modelo
+const Jugador = require('./jugador');
+DatosFisicos.belongsTo(Jugador, { foreignKey: 'id_jugador', as: 'jugador' });

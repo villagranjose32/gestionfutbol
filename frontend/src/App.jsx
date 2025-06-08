@@ -7,6 +7,7 @@ import Viajes from "./pages/Viajes.jsx";
 import CitaMedica from "./pages/CitaMedica.jsx";
 import RegistrarJugador from "./pages/RegistrarJugador.jsx";
 import Layout from "./components/Layout.jsx"; // Asegúrate de que la ruta sea correcta
+import BuscarJugador from "./pages/BuscarJugador.jsx";
 
 
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/viajes" element={<Viajes />} />
         <Route path="/citas-medicas" element={<CitaMedica />} />
         <Route path="/registrar-jugador" element={<RegistrarJugador />} />
+        <Route path="/buscar-jugador" element={<BuscarJugador />} />
 
       </Routes>
     </BrowserRouter>

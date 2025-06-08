@@ -1,44 +1,47 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../test-db'); 
+const sequelize = require('../db/test-db');
+const Jugador = require('./jugador'); // Importa el modelo relacionado
+const { version } = require('react');
 
-const FichaMedica = sequelize.define('FichaMedica', { 
-  id_ficha_medica: {
+const DatosFisicos = sequelize.define('DatosFisicos', {
+  id_datos_fisicos: {
     type: DataTypes.INTEGER,
-    primaryKey: true,        
-    autoIncrement: true,
-    allowNull: false, 
+    primaryKey: true,
+    autoIncrement: true
   },
-  diagnostico: {
-    type: DataTypes.STRING(50), 
+  id_jugador: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  altura: {
+    type: DataTypes.FLOAT,
     allowNull: true,
   },
-  fecha_inicio: {
-    type: DataTypes.DATE,
+  peso: {
+    type: DataTypes.FLOAT,
     allowNull: true,
   },
-  fecha_tentativa_recuperacion: {
-    type: DataTypes.DATE,
-    allowNull: true,
-  },
-  fecha_fin: {
-    type: DataTypes.DATE,
+  velocidad : {
+    type: DataTypes.FLOAT,
     allowNull: true,
   },
   observaciones: {
     type: DataTypes.TEXT,
     allowNull: true,
   },
-  documento: {
-    type: DataTypes.BLOB, 
-    allowNull: true,
+  createdAt: {
+    type: DataTypes.DATE,
   },
-  id_jugador: {
-    type: DataTypes.INTEGER,
-
-  },
+  
+  updatedAt: {
+    type: DataTypes.DATE,
+    },
 }, {
-  tableName: 'ficha_medica', 
+  tableName: 'datos_fisicos',
   timestamps: true,
 });
 
-module.exports = FichaMedica; 
+// Relación: Los datos físicos pertenecen a un jugador
+DatosFisicos.belongsTo(Jugador, { foreignKey: 'id_jugador', as: 'jugador' });
+
+module.exports = DatosFisicos;

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import masIcon from "../assets/icons/plus-solid.svg";
-import houseIcon from "../assets/icons/house-solid.svg"; 
+import houseIcon from "../assets/icons/house-solid.svg";
 import peopleIcon from "../assets/icons/people-solid.svg";
 import planeIcon from "../assets/icons/plane-departure-solid.svg";
 import calendarIcon from "../assets/icons/calendar-days-solid.svg";
@@ -15,10 +15,9 @@ const SideBar = () => {
         <NavLink
           to="/"
           className={({ isActive }) =>
-            `flex px-4 py-2 rounded font-medium transition-colors ${
-              isActive
-                ? "bg-red-800 text-white"
-                : "text-gray-700 hover:bg-gray-100"
+            `flex px-4 py-2 rounded font-medium transition-colors ${isActive
+              ? "bg-red-800 text-white"
+              : "text-gray-700 hover:bg-gray-100"
             }`
           }
         >
@@ -26,14 +25,12 @@ const SideBar = () => {
           Panel Principal
         </NavLink>
 
-
         <NavLink
           to="/registrar-jugador"
           className={({ isActive }) =>
-            `flex px-4 py-2 rounded font-medium transition-colors ${
-              isActive
-                ? "bg-red-800 text-white"
-                : "text-gray-700 hover:bg-gray-100"
+            `flex px-4 py-2 rounded font-medium transition-colors ${isActive
+              ? "bg-red-800 text-white"
+              : "text-gray-700 hover:bg-gray-100"
             }`
           }
         >
@@ -41,14 +38,26 @@ const SideBar = () => {
           Registrar Jugador
         </NavLink>
 
+        {/* Enlace agregado */}
+        <NavLink
+          to="/buscar-jugador"
+          className={({ isActive }) =>
+            `flex px-4 py-2 rounded font-medium transition-colors ${isActive
+              ? "bg-red-800 text-white"
+              : "text-gray-700 hover:bg-gray-100"
+            }`
+          }
+        >
+          <img src={peopleIcon} alt="Buscar" className="mr-3 w-5 h-5" />
+          Buscar Jugador
+        </NavLink>
 
         <NavLink
           to="/jugadores"
           className={({ isActive }) =>
-            `flex px-4 py-2 rounded font-medium transition-colors ${
-              isActive
-                ? "bg-red-800 text-white"
-                : "text-gray-700 hover:bg-gray-100"
+            `flex px-4 py-2 rounded font-medium transition-colors ${isActive
+              ? "bg-red-800 text-white"
+              : "text-gray-700 hover:bg-gray-100"
             }`
           }
         >
@@ -56,14 +65,12 @@ const SideBar = () => {
           Jugadores
         </NavLink>
 
-
         <NavLink
           to="/viajes"
           className={({ isActive }) =>
-            `flex px-4 py-2 rounded font-medium transition-colors ${
-              isActive
-                ? "bg-red-800 text-white"
-                : "text-gray-700 hover:bg-gray-100"
+            `flex px-4 py-2 rounded font-medium transition-colors ${isActive
+              ? "bg-red-800 text-white"
+              : "text-gray-700 hover:bg-gray-100"
             }`
           }
         >
@@ -71,14 +78,12 @@ const SideBar = () => {
           Viajes
         </NavLink>
 
-
         <NavLink
           to="/citas-medicas"
           className={({ isActive }) =>
-            `flex px-4 py-2 rounded font-medium transition-colors ${
-              isActive
-                ? "bg-red-800 text-white"
-                : "text-gray-700 hover:bg-gray-100"
+            `flex px-4 py-2 rounded font-medium transition-colors ${isActive
+              ? "bg-red-800 text-white"
+              : "text-gray-700 hover:bg-gray-100"
             }`
           }
         >
@@ -86,21 +91,18 @@ const SideBar = () => {
           Citas Médicas
         </NavLink>
 
-
         <NavLink
           to="/entrenamientos"
           className={({ isActive }) =>
-            `flex px-4 py-2 rounded font-medium transition-colors ${
-              isActive
-                ? "bg-red-800 text-white"
-                : "text-gray-700 hover:bg-gray-100"
+            `flex px-4 py-2 rounded font-medium transition-colors ${isActive
+              ? "bg-red-800 text-white"
+              : "text-gray-700 hover:bg-gray-100"
             }`
           }
         >
           <img src={dumbbellIcon} alt="Dumbbell" className="mr-3 w-5 h-5" />
           Entrenamientos
         </NavLink>
-
 
         <NavLink to="/login" className="flex px-4 py-2 center items-center">
           <img src={logOutIcon} alt="Log-out" className="mr-3 w-5 h-5" />

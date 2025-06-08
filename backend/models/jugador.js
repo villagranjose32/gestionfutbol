@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db/test-db'); // Ajusta la ruta si es necesario
+const sequelize = require('../db/test-db');
+
 
 const Jugador = sequelize.define('Jugador', {
   id_jugador: {
@@ -60,7 +61,7 @@ const Jugador = sequelize.define('Jugador', {
     allowNull: true,
   },
   tel_tutor_uno: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING(15),
     allowNull: true,
   },
   tutor_dos: {
@@ -68,7 +69,7 @@ const Jugador = sequelize.define('Jugador', {
     allowNull: true,
   },
   tel_tutor_dos: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING(15),
     allowNull: true,
   },
   fecha_alta: {
@@ -90,8 +91,12 @@ const Jugador = sequelize.define('Jugador', {
     type: DataTypes.DATE,
   },
 }, {
-  tableName: 'jugador', // Especifica el nombre de la tabla si es diferente del nombre del modelo pluralizado
-  timestamps: true, // Habilita createdAt y updatedAt automáticamente
+  tableName: 'jugador',
+  timestamps: true,
 });
 
 module.exports = Jugador;
+
+// Relación después de exportar el modelo
+const DatosFisicos = require('./datos_fisicos');
+Jugador.hasMany(DatosFisicos, { foreignKey: 'id_jugador', as: 'datosFisicos' });

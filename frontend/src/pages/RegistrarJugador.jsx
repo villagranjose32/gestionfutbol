@@ -1,176 +1,156 @@
-import React, { useState } from 'react';
-import Layout from '../components/Layout';
-
-// ... (funciones calcularEdad y getCategoria)
+import React, { useState } from "react";
+import Layout from "../components/Layout";
 
 const RegistrarJugador = () => {
-  const [form, setForm] = useState({
+  const [jugador, setJugador] = useState({
+    dni: "",
     nombre: "",
     apellido: "",
-    dni: "",
-    fechaNac: "",
-    pie: "",
+    direccion: "",
     posicion: "",
-    clubOrigen: "",
-    fechaIngreso: "",
+    fecha_nacimiento: "",
+    grupo_sanguineo: "",
+    nro_afiliado: "",
+    obra_social: "",
+    pierna_habil: "",
+    categoria: "",
+    contacto: "",
+    tutor_uno: "",
+    tel_tutor_uno: "",
+    tutor_dos: "",
+    tel_tutor_dos: "",
+    fecha_alta: "",
+    fecha_baja: "",
+    motivo_baja: "",
   });
-  const [jugadores, setJugadores] = useState([]);
-  const [registroExitoso, setRegistroExitoso] = useState(false);
-  const [errorRegistro, setErrorRegistro] = useState('');
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const [datosFisicos, setDatosFisicos] = useState({
+    fecha_registro: "",
+    altura: "",
+    peso: "",
+    velocidad: "",
+    observaciones: "",
+  });
+
+  const [mensaje, setMensaje] = useState("");
+
+  const handleJugadorChange = (e) => {
+    setJugador({ ...jugador, [e.target.name]: e.target.value });
+  };
+
+  const handleDatosFisicosChange = (e) => {
+    setDatosFisicos({ ...datosFisicos, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorRegistro(''); // Limpiar cualquier error previo
+    setMensaje("");
 
     try {
-      const response = await fetch('http://localhost:3000/api/jugadores', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(form),
+      // 1. Registrar jugador
+      const resJugador = await fetch("http://localhost:3000/api/jugadores", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(jugador),
       });
 
-      if (response.ok) {
-        const nuevoJugador = await response.json();
-        setJugadores([...jugadores, nuevoJugador]); // Opcional: actualizar la lista local
-        setRegistroExitoso(true);
-        setForm({ // Limpiar el formulario después del éxito
-          nombre: "",
-          apellido: "",
-          dni: "",
-          fechaNac: "",
-          pie: "",
-          posicion: "",
-          clubOrigen: "",
-          fechaIngreso: "",
-        });
-        // Opcional: podrías resetear el estado de éxito después de un tiempo
-        setTimeout(() => setRegistroExitoso(false), 3000);
-      } else {
-        const errorData = await response.json();
-        setErrorRegistro(`Error al registrar el jugador: ${errorData.message || response.statusText}`);
-      }
+      if (!resJugador.ok) throw new Error("Error al registrar jugador");
+
+      const jugadorCreado = await resJugador.json();
+      
+      // Asegurarse de que el jugadorCreado tenga la estructura esperada
+      console.log({
+        ...datosFisicos,
+        id_jugador: jugadorCreado.jugador.id_jugador,
+      });
+
+      // 2. Registrar datos físicos con el id_jugador devuelto
+      const resDatosFisicos = await fetch("http://localhost:3000/api/datos_fisicos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...datosFisicos,
+          id_jugador: jugadorCreado.jugador.id_jugador,
+        }),
+      });
+
+      if (!resDatosFisicos.ok) throw new Error("Error al registrar datos físicos");
+
+      setMensaje("¡Jugador y datos físicos registrados correctamente!");
+      setJugador({
+        dni: "",
+        nombre: "",
+        apellido: "",
+        direccion: "",
+        posicion: "",
+        fecha_nacimiento: "",
+        grupo_sanguineo: "",
+        nro_afiliado: "",
+        obra_social: "",
+        pierna_habil: "",
+        categoria: "",
+        contacto: "",
+        tutor_uno: "",
+        tel_tutor_uno: "",
+        tutor_dos: "",
+        tel_tutor_dos: "",
+        fecha_alta: "",
+        fecha_baja: "",
+        motivo_baja: "",
+      });
+      setDatosFisicos({
+        fecha_registro: "",
+        altura: "",
+        peso: "",
+        velocidad: "",
+        observaciones: "",
+      });
     } catch (error) {
-      console.error('Error de red al registrar el jugador:', error);
-      setErrorRegistro('Error de red al intentar registrar el jugador.');
+      setMensaje(error.message);
     }
   };
 
   return (
     <Layout>
       <h1 className="text-2xl font-bold mb-4">Registrar Jugador</h1>
-      {registroExitoso && (
-        <div className="bg-green-200 border border-green-500 text-green-700 px-4 py-3 rounded mb-4">
-          Jugador registrado exitosamente!
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Campos de jugador */}
+        <div className="grid grid-cols-2 gap-4">
+          <input name="dni" value={jugador.dni} onChange={handleJugadorChange} placeholder="DNI" required />
+          <input name="nombre" value={jugador.nombre} onChange={handleJugadorChange} placeholder="Nombre" required />
+          <input name="apellido" value={jugador.apellido} onChange={handleJugadorChange} placeholder="Apellido" required />
+          <input name="direccion" value={jugador.direccion} onChange={handleJugadorChange} placeholder="Dirección" />
+          <input name="posicion" value={jugador.posicion} onChange={handleJugadorChange} placeholder="Posición" />
+          <input name="fecha_nacimiento" type="date" value={jugador.fecha_nacimiento} onChange={handleJugadorChange} placeholder="Fecha de nacimiento" />
+          <input name="grupo_sanguineo" value={jugador.grupo_sanguineo} onChange={handleJugadorChange} placeholder="Grupo sanguíneo" />
+          <input name="nro_afiliado" value={jugador.nro_afiliado} onChange={handleJugadorChange} placeholder="Nro. afiliado" />
+          <input name="obra_social" value={jugador.obra_social} onChange={handleJugadorChange} placeholder="Obra social" />
+          <input name="pierna_habil" value={jugador.pierna_habil} onChange={handleJugadorChange} placeholder="Pierna hábil" />
+          <input name="categoria" value={jugador.categoria} onChange={handleJugadorChange} placeholder="Categoría" />
+          <input name="contacto" value={jugador.contacto} onChange={handleJugadorChange} placeholder="Contacto" />
+          <input name="tutor_uno" value={jugador.tutor_uno} onChange={handleJugadorChange} placeholder="Tutor uno" />
+          <input name="tel_tutor_uno" value={jugador.tel_tutor_uno} onChange={handleJugadorChange} placeholder="Tel. tutor uno" />
+          <input name="tutor_dos" value={jugador.tutor_dos} onChange={handleJugadorChange} placeholder="Tutor dos" />
+          <input name="tel_tutor_dos" value={jugador.tel_tutor_dos} onChange={handleJugadorChange} placeholder="Tel. tutor dos" />
+          <input name="fecha_alta" type="date" value={jugador.fecha_alta} onChange={handleJugadorChange} placeholder="Fecha alta" />
+          <input name="fecha_baja" type="date" value={jugador.fecha_baja} onChange={handleJugadorChange} placeholder="Fecha baja" />
+          <input name="motivo_baja" value={jugador.motivo_baja} onChange={handleJugadorChange} placeholder="Motivo baja" />
         </div>
-      )}
-      {errorRegistro && (
-        <div className="bg-red-200 border border-red-500 text-red-700 px-4 py-3 rounded mb-4">
-          {errorRegistro}
+        <hr />
+        {/* Campos de datos físicos */}
+        <h2 className="text-lg font-semibold">Datos Físicos</h2>
+        <div className="grid grid-cols-2 gap-4">
+          <input name="fecha_registro" type="date" value={datosFisicos.fecha_registro} onChange={handleDatosFisicosChange} placeholder="Fecha registro" />
+          <input name="altura" value={datosFisicos.altura} onChange={handleDatosFisicosChange} placeholder="Altura" />
+          <input name="peso" value={datosFisicos.peso} onChange={handleDatosFisicosChange} placeholder="Peso" />
+          <input name="velocidad" value={datosFisicos.velocidad} onChange={handleDatosFisicosChange} placeholder="Velocidad" />
+          <input name="observaciones" value={datosFisicos.observaciones} onChange={handleDatosFisicosChange} placeholder="Observaciones" />
         </div>
-      )}
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white p-6 rounded shadow mb-8">
-        {/* ... (los campos del formulario como antes) */}
-        <div>
-          <label htmlFor="nombre" className="block mb-1 text-gray-700 font-medium">Nombre</label>
-          <input type="text" id="nombre" name="nombre" value={form.nombre} onChange={handleChange} placeholder="Nombre" required className="border rounded px-3 py-2 w-full" />
-        </div>
-        <div>
-          <label htmlFor="apellido" className="block mb-1 text-gray-700 font-medium">Apellido</label>
-          <input type="text" id="apellido" name="apellido" value={form.apellido} onChange={handleChange} placeholder="Apellido" required className="border rounded px-3 py-2 w-full" />
-        </div>
-        <div>
-          <label htmlFor="dni" className="block mb-1 text-gray-700 font-medium">DNI</label>
-          <input type="text" id="dni" name="dni" value={form.dni} onChange={handleChange} placeholder="DNI" required className="border rounded px-3 py-2 w-full" />
-        </div>
-        <div>
-          <label htmlFor="fechaNac" className="block mb-1 text-gray-700 font-medium">Fecha de Nacimiento</label>
-          <input type="date" id="fechaNac" name="fechaNac" value={form.fechaNac} onChange={handleChange} required className="border rounded px-3 py-2 w-full" />
-        </div>
-        <div>
-          <label htmlFor="pie" className="block mb-1 text-gray-700 font-medium">Pie hábil</label>
-          <select id="pie" name="pie" value={form.pie} onChange={handleChange} required className="border rounded px-3 py-2 w-full">
-            <option value="">Seleccionar pie hábil</option>
-            <option value="Derecho">Derecho</option>
-            <option value="Izquierdo">Izquierdo</option>
-            <option value="Ambidiestro">Ambidiestro</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="posicion" className="block mb-1 text-gray-700 font-medium">Posición</label>
-          <select id="posicion" name="posicion" value={form.posicion} onChange={handleChange} required className="border rounded px-3 py-2 w-full">
-            <option value="">Seleccionar posición</option>
-            <option value="Arquero">Arquero</option>
-            <option value="Defensor">Defensor</option>
-            <option value="Lateral">Lateral</option>
-            <option value="Volante">Volante</option>
-            <option value="Delantero">Delantero</option>
-            <option value="Extremo">Extremo</option>
-            <option value="Enganche">Enganche</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="clubOrigen" className="block mb-1 text-gray-700 font-medium">Club de Origen</label>
-          <input type="text" id="clubOrigen" name="clubOrigen" value={form.clubOrigen} onChange={handleChange} placeholder="Club de Origen" required className="border rounded px-3 py-2 w-full" />
-        </div>
-        <div>
-          <label htmlFor="fechaIngreso" className="block mb-1 text-gray-700 font-medium">Fecha de Ingreso al Club</label>
-          <input type="date" id="fechaIngreso" name="fechaIngreso" value={form.fechaIngreso} onChange={handleChange} required className="border rounded px-3 py-2 w-full" />
-        </div>
-        <div className="md:col-span-3 flex items-end">
-          <button
-            type="submit"
-            className="w-full bg-[#a40000] hover:bg-[#800000] text-white font-semibold py-2 rounded transition-colors"
-          >
-            Agregar Jugador
-          </button>
-        </div>
+        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+          Registrar
+        </button>
+        {mensaje && <div className="mt-4">{mensaje}</div>}
       </form>
-
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white rounded shadow">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="px-3 py-2">Nombre</th>
-              <th className="px-3 py-2">Apellido</th>
-              <th className="px-3 py-2">DNI</th>
-              <th className="px-3 py-2">Categoría</th>
-              <th className="px-3 py-2">Edad</th>
-              <th className="px-3 py-2">Puesto</th>
-              <th className="px-3 py-2">Pie</th>
-              <th className="px-3 py-2">Club de Origen</th>
-              <th className="px-3 py-2">Fecha de Ingreso</th>
-            </tr>
-          </thead>
-          <tbody>
-            {jugadores.map((j, idx) => (
-              <tr key={idx} className="border-t">
-                <td className="px-3 py-2">{j.nombre}</td>
-                <td className="px-3 py-2">{j.apellido}</td>
-                <td className="px-3 py-2">{j.dni}</td>
-                <td className="px-3 py-2">{getCategoria(j.fechaNac)}</td>
-                <td className="px-3 py-2">{calcularEdad(j.fechaNac)}</td>
-                <td className="px-3 py-2">{j.posicion}</td>
-                <td className="px-3 py-2">{j.pie}</td>
-                <td className="px-3 py-2">{j.clubOrigen}</td>
-                <td className="px-3 py-2">{j.fechaIngreso}</td>
-              </tr>
-            ))}
-            {jugadores.length === 0 && (
-              <tr>
-                <td colSpan={9} className="text-center py-4 text-gray-500">
-                  No hay jugadores registrados.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
     </Layout>
   );
 };

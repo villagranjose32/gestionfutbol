@@ -29,6 +29,15 @@ app.use('/api', aspirantesRoutes);
 const datosFisicosRoutes = require('./routes/datos_fisicosRoutes');
 app.use('/api', datosFisicosRoutes);
 
+// RUTA PARTIDOS y JUGADORES
+const jugadorPartidoRoutes = require('./routes/jugador_partidoRoutes');
+app.use('/api', jugadorPartidoRoutes);
+
+// RUTA PARTIDOS
+
+const partidosRoutes = require('./routes/partidosRoutes');
+app.use('/api/partidos', partidosRoutes);
+
 // Inicio del servidor
 const PORT = 3000;
 app.listen(PORT, async () => {

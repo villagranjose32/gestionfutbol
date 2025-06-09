@@ -6,10 +6,11 @@ import Jugadores from "./pages/Jugadores.jsx";
 import Viajes from "./pages/Viajes.jsx";
 import CitaMedica from "./pages/CitaMedica.jsx";
 import RegistrarJugador from "./pages/RegistrarJugador.jsx";
-import Layout from "./components/Layout.jsx"; // Asegúrate de que la ruta sea correcta
+import Layout from "./components/Layout.jsx";
 import BuscarJugador from "./pages/BuscarJugador.jsx";
-
-
+import RegistrarAspirante from "./pages/RegistrarAspirante.jsx";
+import BuscarAspirante from "./pages/BuscarAspirante.jsx";
+import PartidoGestion from "./pages/PartidoGestion.jsx";
 
 function App() {
   return (
@@ -23,7 +24,9 @@ function App() {
         <Route path="/citas-medicas" element={<CitaMedica />} />
         <Route path="/registrar-jugador" element={<RegistrarJugador />} />
         <Route path="/buscar-jugador" element={<BuscarJugador />} />
-
+        <Route path="/registrar-aspirante" element={<RegistrarAspirante />} />
+        <Route path="/buscar-aspirante" element={<BuscarAspirante />} /> {/* Agrega esta línea */}
+        <Route path="/partido-gestion" element={<PartidoGestion />} />
       </Routes>
     </BrowserRouter>
   );

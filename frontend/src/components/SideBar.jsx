@@ -38,7 +38,6 @@ const SideBar = () => {
           Registrar Jugador
         </NavLink>
 
-        {/* Enlace agregado */}
         <NavLink
           to="/buscar-jugador"
           className={({ isActive }) =>
@@ -51,6 +50,49 @@ const SideBar = () => {
           <img src={peopleIcon} alt="Buscar" className="mr-3 w-5 h-5" />
           Buscar Jugador
         </NavLink>
+
+        {/* NUEVOS ENLACES PARA ASPIRANTES */}
+        <NavLink
+          to="/registrar-aspirante"
+          className={({ isActive }) =>
+            `flex px-4 py-2 rounded font-medium transition-colors ${isActive
+              ? "bg-red-800 text-white"
+              : "text-gray-700 hover:bg-gray-100"
+            }`
+          }
+        >
+          <img src={masIcon} alt="Aspirante" className="mr-3 w-5 h-5" />
+          Registrar Aspirante
+        </NavLink>
+
+        <NavLink
+          to="/buscar-aspirante"
+          className={({ isActive }) =>
+            `flex px-4 py-2 rounded font-medium transition-colors ${isActive
+              ? "bg-red-800 text-white"
+              : "text-gray-700 hover:bg-gray-100"
+            }`
+          }
+        >
+          <img src={peopleIcon} alt="Buscar Aspirante" className="mr-3 w-5 h-5" />
+          Buscar Aspirante
+        </NavLink>
+        {/* FIN NUEVOS ENLACES */}
+
+        {/* ENLACE PARA GESTIÓN DE PARTIDO */}
+        <NavLink
+          to="/partido-gestion"
+          className={({ isActive }) =>
+            `flex px-4 py-2 rounded font-medium transition-colors ${isActive
+              ? "bg-red-800 text-white"
+              : "text-gray-700 hover:bg-gray-100"
+            }`
+          }
+        >
+          <img src={calendarIcon} alt="Gestión Partido" className="mr-3 w-5 h-5" />
+          Gestión de Partido
+        </NavLink>
+        {/* FIN ENLACE GESTIÓN DE PARTIDO */}
 
         <NavLink
           to="/jugadores"

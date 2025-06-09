@@ -40,7 +40,7 @@ async function buscarAspirantes(req, res) {
             localidad,
             dni,
             estado,
-            posicion
+            fecha_nacimiento 
         } = req.query;
 
         const condiciones = {};
@@ -51,7 +51,8 @@ async function buscarAspirantes(req, res) {
         if (localidad) condiciones.localidad = { [Op.like]: `%${localidad}%` };
         if (dni) condiciones.dni = dni;
         if (estado) condiciones.estado = { [Op.like]: `%${estado}%` };
-        if (posicion) condiciones.posicion = { [Op.like]: `%${posicion}%` };
+        if (fecha_nacimiento) condiciones.fecha_nacimiento = fecha_nacimiento; 
+
 
         const aspirantes = await Aspirante.findAll({ where: condiciones });
 

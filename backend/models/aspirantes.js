@@ -1,15 +1,15 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/test-db');
 
-const Aspirante = sequelize.define('Aspirante', { 
-  id_aspirantes: {
-    type: DataTypes.INTEGER, 
-    primaryKey: true,        
+const Aspirante = sequelize.define('Aspirante', {
+  id_aspirante: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
     autoIncrement: true,
     allowNull: false,
   },
   nombre: {
-    type: DataTypes.STRING(20), 
+    type: DataTypes.STRING(20),
     allowNull: true,
   },
   apellido: {
@@ -25,27 +25,24 @@ const Aspirante = sequelize.define('Aspirante', {
     allowNull: true,
   },
   dni: {
-    type: DataTypes.INTEGER, 
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   fecha_nacimiento: {
-    type: DataTypes.DATE, 
+    type: DataTypes.DATE,
     allowNull: true,
   },
   contacto: {
-    type: DataTypes.STRING(30), 
+    type: DataTypes.STRING(30),
+    allowNull: true,
   },
   estado: {
-    type: DataTypes.STRING(20), 
+    type: DataTypes.STRING(20),
     allowNull: true,
-  },
-  posicion: {
-    type: DataTypes.STRING(20), 
-    allowNull: true,
-  },
+  }
 }, {
-  tableName: 'aspirantes', 
+  tableName: 'aspirantes',
   timestamps: true,
 });
 
-module.exports = Aspirante; 
+module.exports = Aspirante;

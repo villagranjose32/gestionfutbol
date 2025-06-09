@@ -100,3 +100,14 @@ module.exports = Jugador;
 // Relación después de exportar el modelo
 const DatosFisicos = require('./datos_fisicos');
 Jugador.hasMany(DatosFisicos, { foreignKey: 'id_jugador', as: 'datosFisicos' });
+
+// Relación con el modelo Partido a través de la tabla intermedia JugadorPartido
+const Partido = require('./partidos');
+const JugadorPartido = require('./jugador_partido');
+
+Jugador.belongsToMany(Partido, {
+  through: JugadorPartido,
+  foreignKey: 'id_jugador',
+  otherKey: 'id_partido',
+  as: 'partidos'
+});

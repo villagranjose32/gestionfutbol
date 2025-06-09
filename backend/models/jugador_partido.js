@@ -1,45 +1,57 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/test-db');
 
-const FichaMedica = sequelize.define('FichaMedica', {
-  id_ficha_medica: {
+const JugadorPartido = sequelize.define('JugadorPartido', {
+  id_jugador_partido: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    allowNull: false, 
+    allowNull: false,
   },
-  diagnostico: {
-    type: DataTypes.STRING(50),
-    allowNull: true,
-  },
-  fecha_inicio: {
-    type: DataTypes.DATE,
-    allowNull: true,
-  },
-  fecha_tentativa_recuperacion: {
-    type: DataTypes.DATE,
-    allowNull: true,
-  },
-  fecha_fin: {
-    type: DataTypes.DATE,
-    allowNull: true,
-  },
-  observaciones: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-  documento: {
-    type: DataTypes.BLOB, 
-    allowNull: true,
+  id_partido: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'partidos',
+      key: 'id_partido'
+    }
   },
   id_jugador: {
     type: DataTypes.INTEGER,
-    allowNull: true,
-  
+    allowNull: false,
+    references: {
+      model: 'jugador',
+      key: 'id_jugador'
+    }
   },
+  amarilla: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  roja: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  asistencia: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  observacion: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  goles: { // <--- NUEVA COLUMNA
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 0,
+  }
 }, {
-  tableName: 'ficha_medica',
+  tableName: 'jugador_partido',
   timestamps: true,
 });
 
-module.exports = FichaMedica;
+module.exports = JugadorPartido;
+
+// Relación con el modelo Jugador
+const Jugador = require('./jugador');
+JugadorPartido.belongsTo(Jugador, { foreignKey: 'id_jugador', as: 'jugador' });

@@ -1,7 +1,7 @@
 // C:\Users\pc\proyecto-cacc\test-db.js
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('juvenilescentralcordobadb', 'root', 'root', {
+const sequelize = new Sequelize('juvenilescentraldb', 'root', '123456789', {
   host: 'localhost',  // Cambié '127.0.0.1' por 'localhost' según tu configuración de Workbench
   port: 3306,  // Agregué explícitamente el puerto que vi en tu configuración
   dialect: 'mysql',

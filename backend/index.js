@@ -34,9 +34,20 @@ const jugadorPartidoRoutes = require('./routes/jugador_partidoRoutes');
 app.use('/api', jugadorPartidoRoutes);
 
 // RUTA PARTIDOS
-
 const partidosRoutes = require('./routes/partidosRoutes');
 app.use('/api/partidos', partidosRoutes);
+
+// RUTA FICHA MEDICA
+const fichaMedicaRoutes = require('./routes/ficha_medicaRoutes');
+app.use('/api/ficha-medica', fichaMedicaRoutes);
+
+// RUTA FICHA SOCIAL
+const fichaSocialRoutes = require('./routes/ficha_socialR');
+app.use('/api/ficha-social', fichaSocialRoutes);
+
+// RUTA USUARIOS
+const usuariosRoutes = require('./routes/usuariosRoutes');
+app.use('/api/usuarios', usuariosRoutes);
 
 // Inicio del servidor
 const PORT = 3000;

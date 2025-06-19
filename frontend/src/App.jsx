@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login.jsx";
 import PanelPrincipal from "./pages/PanelPrincipal.jsx";
-import Entrenamientos from "./pages/Entrenamientos.jsx";
+import Estadisticas from "./pages/Estadisticas.jsx";
 import Jugadores from "./pages/Jugadores.jsx";
 import Viajes from "./pages/Viajes.jsx";
 import CitaMedica from "./pages/CitaMedica.jsx";
@@ -18,7 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<PanelPrincipal />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/entrenamientos" element={<Entrenamientos />} />
+        <Route path="/estadisticas" element={<Estadisticas />} />
         <Route path="/jugadores" element={<Jugadores />} />
         <Route path="/viajes" element={<Viajes />} />
         <Route path="/citas-medicas" element={<CitaMedica />} />

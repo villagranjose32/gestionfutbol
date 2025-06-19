@@ -4,13 +4,12 @@ import menuIcon from "../assets/icons/bars-solid.svg"; // <--- ¡Importante! Ase
 
 // Recibe la función 'toggleSidebar' como prop desde Layout.jsx
 const NavBar = ({ toggleSidebar }) => (
-  // Agregamos md:ml-64 para que la Navbar también se desplace en pantallas de escritorio
-  // cuando el Sidebar está visible y es estático (para que no se superponga con el sidebar).
-  <nav className="w-full flex items-center justify-between bg-gray-900 px-6 py-3 text-white md:ml-64">
-    {/* Botón de hamburguesa: visible solo en móviles (md:hidden) */}
+  // Se eliminó md:ml-64
+  <nav className="w-full flex items-center justify-between bg-gray-900 px-6 py-3 text-white">
+    {/* Botón de hamburguesa: ya no oculto en pantallas medianas */}
     <button
       onClick={toggleSidebar} // Al hacer clic, llama a la función para abrir/cerrar el Sidebar
-      className="md:hidden text-white focus:outline-none mr-4" // Clases de Tailwind para estilo y margen
+      className="text-white focus:outline-none mr-4" // Clases de Tailwind para estilo y margen
     >
       <img src={menuIcon} alt="Menu" className="w-6 h-6" />
     </button>

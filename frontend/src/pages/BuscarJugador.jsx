@@ -16,18 +16,17 @@ const BuscarJugador = () => {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchMessage, setSearchMessage] = useState("");
 
-  // State for the selected player to manage their status
-  const [selectedPlayer, setSelectedPlayer] = useState(null);
-  const [showStatusForm, setShowStatusForm] = useState(false);
-  const [statusUpdateMessage, setStatusUpdateMessage] = useState("");
-  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
-
-  // Form state for status update
-  const [statusForm, setStatusForm] = useState({
-    fecha_alta: "",
-    fecha_baja: "",
-    motivo_baja: "",
-  });
+  // Eliminamos el estado y las funciones relacionadas con "Gestionar Estado"
+  // ya que la opción será eliminada.
+  // const [selectedPlayer, setSelectedPlayer] = useState(null);
+  // const [showStatusForm, setShowStatusForm] = useState(false);
+  // const [statusUpdateMessage, setStatusUpdateMessage] = useState("");
+  // const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  // const [statusForm, setStatusForm] = useState({
+  //   fecha_alta: "",
+  //   fecha_baja: "",
+  //   motivo_baja: "",
+  // });
 
   const debounceTimeoutRef = useRef(null);
 
@@ -45,8 +44,11 @@ const BuscarJugador = () => {
       if (value) params.append(key, value);
     });
 
-    if (Object.values(searchFilters).every((value) => value === "")) {
-      setSearchMessage("Ingrese al menos un criterio de búsqueda.");
+    // Solo realiza la búsqueda si hay al menos un criterio no vacío
+    const hasSearchCriteria = Object.values(searchFilters).some((value) => value !== "");
+
+    if (!hasSearchCriteria) {
+      setSearchMessage("Ingrese al menos un criterio de búsqueda para ver resultados.");
       setSearchLoading(false);
       return;
     }
@@ -69,6 +71,7 @@ const BuscarJugador = () => {
     }
   };
 
+  // Debounce effect for search filters
   useEffect(() => {
     if (debounceTimeoutRef.current) {
       clearTimeout(debounceTimeoutRef.current);
@@ -82,70 +85,27 @@ const BuscarJugador = () => {
         clearTimeout(debounceTimeoutRef.current);
       }
     };
-  }, [searchFilters]);
+  }, [searchFilters]); // Dependencia: re-ejecutar cuando los filtros cambien
 
-  // Handler for selecting a player from search results
-  const handleSelectPlayerForStatus = (player) => {
-    setSelectedPlayer(player);
-    // Initialize status form with current player's data
-    setStatusForm({
-      fecha_alta: player.fecha_alta ? player.fecha_alta.split('T')[0] : "", // Format date for input type="date"
-      fecha_baja: player.fecha_baja ? player.fecha_baja.split('T')[0] : "",
-      motivo_baja: player.motivo_baja || "",
-    });
-    setShowStatusForm(true);
-    setStatusUpdateMessage(""); // Clear previous messages
-  };
-
-  const handleStatusFormChange = (e) => {
-    setStatusForm({ ...statusForm, [e.target.name]: e.target.value });
-  };
-
-  const handleUpdatePlayerStatus = async (e) => {
-    e.preventDefault();
-    if (!selectedPlayer) return;
-
-    setIsUpdatingStatus(true);
-    setStatusUpdateMessage("");
-
-    try {
-      const res = await fetch(`http://localhost:3000/api/jugadores/${selectedPlayer.id_jugador}`, {
-        method: "PUT", // Assuming PUT for updating a player
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fecha_alta: statusForm.fecha_alta || null, // Send null if empty
-          fecha_baja: statusForm.fecha_baja || null, // Send null if empty
-          motivo_baja: statusForm.motivo_baja || null, // Send null if empty
-        }),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(`Error al actualizar estado del jugador: ${errorData.message || res.statusText}`);
-      }
-
-      const updatedPlayer = await res.json();
-      setStatusUpdateMessage("Estado del jugador actualizado correctamente.");
-      // Optionally, refresh search results to reflect changes
-      performSearch();
-      setShowStatusForm(false); // Close the form after successful update
-      setSelectedPlayer(null); // Clear selected player
-    } catch (error) {
-      console.error("Error al actualizar estado:", error);
-      setStatusUpdateMessage(`Error: ${error.message}`);
-    } finally {
-      setIsUpdatingStatus(false);
-    }
+  // Handler for "Ver perfil" button
+  const handleViewProfile = (player) => {
+    // Aquí puedes redirigir a una página de perfil o abrir un modal con la información detallada.
+    // Por ahora, solo mostraremos una alerta simple.
+    alert(`Ver perfil de: ${player.nombre} ${player.apellido}\nDNI: ${player.dni}\nCategoría: ${player.categoria}`);
+    // Ejemplo de redirección (si tuvieras una ruta /perfil/[id] en Next.js, por ejemplo):
+    // import { useRouter } from 'next/router';
+    // const router = useRouter();
+    // router.push(`/perfil/${player.id_jugador}`);
   };
 
   // Helper function to render status label and color in table
   const renderStatus = (player) => {
-    const isBaja = player.fecha_baja && player.fecha_baja !== null;
+    // Determine status based on fecha_baja being present and not null/empty
+    const isBaja = player.fecha_baja && player.fecha_baja !== null && player.fecha_baja !== '';
     const statusText = isBaja ? 'Baja' : 'Alta';
     const statusClass = isBaja ? 'text-red-700 font-semibold' : 'text-green-700 font-semibold';
     return <span className={statusClass}>{statusText}</span>;
   };
-
 
   const inputClasses = "mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm";
   const labelClasses = "block text-sm font-medium text-gray-700";
@@ -157,49 +117,6 @@ const BuscarJugador = () => {
     ? "bg-red-100 border-red-300 focus:ring-red-500 focus:border-red-500"
     : "bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500";
 
-  // Datos de ejemplo, reemplaza por fetch si lo deseas
-  const jugadoresMock = [
-    {
-      nombre: 'Matías López',
-      categoria: 'Sub-18',
-      goles: 5,
-      informeMedico: 'Apto',
-      informeSocial: 'Apto',
-      informeFisico: 'Apto',
-      fechaIngreso: '2021-03-15',
-      fechaBaja: ''
-    },
-    {
-      nombre: 'Santiago Pérez',
-      categoria: 'Sub-18',
-      goles: 3,
-      informeMedico: 'Apto\nBajo seguimiento',
-      informeSocial: 'Bajo',
-      informeFisico: 'Apto',
-      fechaIngreso: '2020-08-12',
-      fechaBaja: '2023-05-10'
-    },
-    // ...agrega más jugadores si lo deseas
-  ];
-
-  const [jugadores, setJugadores] = useState([]);
-  const [busqueda, setBusqueda] = useState('');
-
-  useEffect(() => {
-    setJugadores(jugadoresMock);
-  }, []);
-
-  const handleBuscar = (e) => {
-    setBusqueda(e.target.value);
-  };
-
-  const jugadoresFiltrados = jugadores.filter(j =>
-    j.nombre.toLowerCase().includes(busqueda.toLowerCase())
-  );
-
-  const verPerfil = (jugador) => {
-    alert(`Ver perfil de: ${jugador.nombre}`);
-  };
 
   return (
     <Layout>
@@ -321,74 +238,8 @@ const BuscarJugador = () => {
         )}
       </div>
 
-      {/* Status Update Form (Conditionally rendered) */}
-      {showStatusForm && selectedPlayer && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
-          <div className="relative p-8 bg-white w-full max-w-md mx-auto rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-4 text-gray-900">
-              Gestionar Estado de {selectedPlayer.nombre} {selectedPlayer.apellido}
-            </h2>
-            <form onSubmit={handleUpdatePlayerStatus} className="space-y-4">
-              <div>
-                <label htmlFor="fecha_alta_status" className={labelClasses}>Fecha de Alta</label>
-                <input
-                  type="date"
-                  name="fecha_alta"
-                  id="fecha_alta_status"
-                  value={statusForm.fecha_alta}
-                  onChange={handleStatusFormChange}
-                  className={inputClasses}
-                />
-              </div>
-              <div>
-                <label htmlFor="fecha_baja_status" className={labelClasses}>Fecha de Baja</label>
-                <input
-                  type="date"
-                  name="fecha_baja"
-                  id="fecha_baja_status"
-                  value={statusForm.fecha_baja}
-                  onChange={handleStatusFormChange}
-                  className={inputClasses}
-                />
-              </div>
-              <div>
-                <label htmlFor="motivo_baja_status" className={labelClasses}>Motivo de Baja (Si aplica)</label>
-                <textarea
-                  name="motivo_baja"
-                  id="motivo_baja_status"
-                  value={statusForm.motivo_baja}
-                  onChange={handleStatusFormChange}
-                  rows="3"
-                  className={`${inputClasses} resize-y`}
-                  maxLength="500"
-                ></textarea>
-              </div>
-
-              <div className="flex justify-end gap-4 mt-6">
-                <button
-                  type="button"
-                  onClick={() => setShowStatusForm(false)}
-                  className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  disabled={isUpdatingStatus}
-                  className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isUpdatingStatus ? "Guardando..." : "Guardar Cambios"}
-                </button>
-              </div>
-              {statusUpdateMessage && (
-                <div className={`mt-4 p-3 rounded-md text-center ${statusUpdateMessage.includes("Error") ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}>
-                  {statusUpdateMessage}
-                </div>
-              )}
-            </form>
-          </div>
-        </div>
-      )}
+      {/* El formulario de "Gestionar Estado" se ha eliminado */}
+      {/* {showStatusForm && selectedPlayer && ( ... )} */}
 
       {/* Search Results Table */}
       {searchResults.length > 0 && (
@@ -404,7 +255,7 @@ const BuscarJugador = () => {
                 <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Posición</th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Categoría</th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Estado</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider rounded-tr-lg">Acciones</th> {/* New column for actions */}
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider rounded-tr-lg">Acciones</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -417,15 +268,22 @@ const BuscarJugador = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{jugador.posicion || "N/A"}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{jugador.categoria || "N/A"}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    {renderStatus(jugador)} {/* Use helper for consistent rendering */}
+                    {renderStatus(jugador)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <button
+                      onClick={() => handleViewProfile(jugador)}
+                      className="bg-blue-800 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
+                    >
+                      Ver perfil
+                    </button>
+                    {/* El botón "Gestionar Estado" se ha eliminado */}
+                    {/* <button
                       onClick={() => handleSelectPlayerForStatus(jugador)}
                       className="text-blue-600 hover:text-blue-900 font-semibold"
                     >
                       Gestionar Estado
-                    </button>
+                    </button> */}
                   </td>
                 </tr>
               ))}
@@ -433,71 +291,6 @@ const BuscarJugador = () => {
           </table>
         </div>
       )}
-
-      {/* Listado de Jugadores (Nuevo componente dentro de BuscarJugador) */}
-      <div style={{ padding: '2rem', background: '#fff', borderRadius: 12, marginTop: 32 }}>
-        <h2>Listado de Jugadores</h2>
-        <input
-          type="text"
-          placeholder="Buscar jugador..."
-          value={busqueda}
-          onChange={handleBuscar}
-          style={{ marginBottom: '1rem', padding: '0.5rem', width: '300px' }}
-        />
-        <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff' }}>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Categoría</th>
-              <th>Goles</th>
-              <th>Informe Médico</th>
-              <th>Informe Social</th>
-              <th>Informe Físico</th>
-              <th>Fecha de Ingreso</th>
-              <th>Fecha de Baja</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {jugadoresFiltrados.map((jugador, idx) => (
-              <tr key={idx}>
-                <td>{jugador.nombre}</td>
-                <td>{jugador.categoria}</td>
-                <td>{jugador.goles}</td>
-                <td>
-                  {jugador.informeMedico.split('\n').map((line, i) => (
-                    <div key={i}>{line}</div>
-                  ))}
-                </td>
-                <td>{jugador.informeSocial}</td>
-                <td>{jugador.informeFisico}</td>
-                <td>{new Date(jugador.fechaIngreso).toLocaleDateString()}</td>
-                <td>
-                  {jugador.fechaBaja
-                    ? new Date(jugador.fechaBaja).toLocaleDateString()
-                    : '-'}
-                </td>
-                <td>
-                  <button
-                    onClick={() => verPerfil(jugador)}
-                    style={{
-                      background: '#22395d',
-                      color: '#fff',
-                      border: 'none',
-                      padding: '0.5rem 1rem',
-                      borderRadius: 6,
-                      fontWeight: 'bold',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    Ver perfil
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
     </Layout>
   );
 };

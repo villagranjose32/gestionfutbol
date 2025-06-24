@@ -52,7 +52,7 @@ const RegistrarJugador = () => {
     tutor_dos: "",
     tel_tutor_dos: "",
     // Eliminamos fecha_alta y fecha_baja de aquí para que no estén en el formulario
-    motivo_baja: "", // Se mantiene solo para el caso de dar de baja
+    //motivo_baja: "", // Se mantiene solo para el caso de dar de baja
     estado: "Alta", // Nuevo estado para controlar si el jugador se registra como 'Alta' o 'Baja'
   });
 
@@ -61,7 +61,6 @@ const RegistrarJugador = () => {
   const [currentDatosFisicos, setCurrentDatosFisicos] = useState({
     altura: "",
     peso: "",
-    velocidad: "",
     observaciones: "",
   });
 
@@ -73,7 +72,6 @@ const RegistrarJugador = () => {
   });
 
   const [fichaMedica, setFichaMedica] = useState({
-    grupo_sanguineo: "",
     diagnostico: "",
     fecha_inicio: "",
     fecha_fin: "",
